@@ -73,7 +73,7 @@ def exact_match_boost(query, documents):
     return boost_values
 
 
-def compute_linear_score(query, documents, bm25_scores, review_weight=0.2, title_weight=0.5):
+def compute_linear_score(query, documents, bm25_scores, review_weight=0.3, title_weight=0.5):
     """
     Computes a linear scoring function combining:
     - BM25 score
@@ -113,6 +113,8 @@ def compute_linear_score(query, documents, bm25_scores, review_weight=0.2, title
         score += review_score * review_weight
 
         scores.append((doc, score))
+        
+    
 
     return sorted(scores, key=lambda x: x[1], reverse=True)  # Sort by final score
 

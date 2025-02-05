@@ -1,7 +1,69 @@
 {
-    "iphone": [],
-    "wireless headphones": [],
-    "laptop 16GB RAM": [],
+    "game": [
+        {
+            "title": "Product related to 'game' at https://web-scraping.dev/product/16",
+            "url": "https://web-scraping.dev/product/16",
+            "description": "Found in keyword 'game' with values [11]",
+            "score": 3.5330416317301063
+        },
+        {
+            "title": "Product related to 'game' at https://web-scraping.dev/product/16?variant=one",
+            "url": "https://web-scraping.dev/product/16?variant=one",
+            "description": "Found in keyword 'game' with values [14]",
+            "score": 3.5330416317301063
+        },
+        {
+            "title": "Product related to 'game' at https://web-scraping.dev/product/16?variant=six-pack",
+            "url": "https://web-scraping.dev/product/16?variant=six-pack",
+            "description": "Found in keyword 'game' with values [4]",
+            "score": 3.5330416317301063
+        },
+        {
+            "title": "Product related to 'game' at https://web-scraping.dev/product/28",
+            "url": "https://web-scraping.dev/product/28",
+            "description": "Found in keyword 'game' with values [4]",
+            "score": 3.5330416317301063
+        },
+        {
+            "title": "Product related to 'game' at https://web-scraping.dev/product/28?variant=one",
+            "url": "https://web-scraping.dev/product/28?variant=one",
+            "description": "Found in keyword 'game' with values [11]",
+            "score": 3.5330416317301063
+        }
+    ],
+    "headphones": [],
+    "video on demand": [
+        {
+            "title": "Product related to 'video' at https://web-scraping.dev/product/17",
+            "url": "https://web-scraping.dev/product/17",
+            "description": "Found in keyword 'video' with values [17]",
+            "score": 1.2985076962177717
+        },
+        {
+            "title": "Product related to 'video' at https://web-scraping.dev/product/17?variant=six-pack",
+            "url": "https://web-scraping.dev/product/17?variant=six-pack",
+            "description": "Found in keyword 'video' with values [17]",
+            "score": 1.2985076962177717
+        },
+        {
+            "title": "Product related to 'video' at https://web-scraping.dev/product/5?variant=one",
+            "url": "https://web-scraping.dev/product/5?variant=one",
+            "description": "Found in keyword 'video' with values [19]",
+            "score": 1.2985076962177717
+        },
+        {
+            "title": "Product related to 'video' at https://web-scraping.dev/product/5?variant=six-pack",
+            "url": "https://web-scraping.dev/product/5?variant=six-pack",
+            "description": "Found in keyword 'video' with values [22]",
+            "score": 1.2985076962177717
+        },
+        {
+            "title": "Product related to 'on' at https://web-scraping.dev/product/17",
+            "url": "https://web-scraping.dev/product/17",
+            "description": "Found in keyword 'on' with values [2]",
+            "score": 1.0978370007556206
+        }
+    ],
     "best smartphone 2024": [
         {
             "title": "Product related to 'best' at https://web-scraping.dev/product/14?variant=one",

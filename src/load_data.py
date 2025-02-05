@@ -1,6 +1,13 @@
 import os
 import json
 
+
+## Here, I created many functions to load the json indexes because they have different structures and this caused a lot of bugs when loading them
+
+## Each function is adapted for the json file it loads
+
+## Even if some of these functions may seem repetitive, they work
+
 # Obtenir le chemin du dossier data
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Remonte au projet
 DATA_DIR = os.path.join(BASE_DIR, "data")  # Dossier data

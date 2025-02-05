@@ -37,7 +37,10 @@ def expand_query(query, synonyms):
     """Expands a query by adding synonyms from the synonym dictionary."""
     tokens = tokenize(query)
     expanded_query = set(tokens)
+
     for token in tokens:
         if token in synonyms:
             expanded_query.update(synonyms[token])
+
+    print(f"DEBUG: Expanded query for '{query}' -> {expanded_query}")  # ✅ Debug
     return list(expanded_query)
