@@ -2,134 +2,78 @@ import os
 import json
 
 
-## Here, I created many functions to load the json indexes because they have different structures and this caused a lot of bugs when loading them
+class DataLoader:
+    """A class to handle loading and parsing various JSON index files."""
 
-## Each function is adapted for the json file it loads
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root directory
+    DATA_DIR = os.path.join(BASE_DIR, "data")  # Data directory where JSON files are stored
 
-## Even if some of these functions may seem repetitive, they work
+    def __init__(self):
+        print("✅ DataLoader initialized.")
 
-# Obtenir le chemin du dossier data
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Remonte au projet
-DATA_DIR = os.path.join(BASE_DIR, "data")  # Dossier data
+    def _load_json(self, filename):
+        """Generic method to load a JSON file."""
+        filepath = os.path.join(self.DATA_DIR, filename)
+        print(f"DEBUG: Loading file {filepath}")
 
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"Error: {filename} not found!")
 
-def load_description_index():
-    """Charge et reformate `description_index.json` pour en faire une liste de documents exploitables."""
-    filepath = os.path.join(DATA_DIR, "description_index.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
+        with open(filepath, "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: {filepath} not found!")
+        print(f"DEBUG: JSON successfully loaded, type: {type(data)}")
+        return data
 
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
+    def load_description_index(self):
+        """
+        Loads and processes `description_index.json`, transforming it into a structured list of documents.
+        """
+        data = self._load_json("description_index.json")
 
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
+        processed_data = []
+        if isinstance(data, dict):
+            for keyword, url_dict in data.items():
+                if isinstance(url_dict, dict):
+                    for url, values in url_dict.items():
+                        if isinstance(values, list):
+                            processed_data.append({
+                                "id": hash(url),  # Unique identifier based on the URL
+                                "title": f"{keyword.capitalize()} - Product at {url}",
+                                "description": f"This product is associated with '{keyword}' (relevance score: {values})",
+                                "url": url
+                            })
 
-    # 🔍 On reformate si le fichier contient un dictionnaire imbriqué
-    reconstructed_data = []
-    if isinstance(data, dict):
-        for keyword, url_dict in data.items():
-            if isinstance(url_dict, dict):  # Vérifier que ce sont bien des sous-dictionnaires
-                for url, values in url_dict.items():
-                    if isinstance(values, list):  # Vérifier que la valeur est bien une liste
-                        reconstructed_data.append({
-                            "id": hash(url),  # 🔥 Ajouter un ID unique basé sur l'URL
-                            "title": f"Product related to '{keyword}' at {url}",
-                            "description": f"Found in keyword '{keyword}' with values {values}",
-                            "url": url
-                        })
+        print(f"DEBUG: {len(processed_data)} documents processed")
+        return processed_data
 
-    print(f"DEBUG: {len(reconstructed_data)} documents reconstruits")
-    return reconstructed_data
+    def load_simple_dict(self, filename):
+        """
+        Loads a JSON file that is expected to be a simple dictionary and returns it as-is.
+        """
+        return self._load_json(filename)
 
+    # Methods to load specific indexes
+    def load_origin_synonyms(self):
+        """Loads `origin_synonyms.json` (already a dictionary)."""
+        return self.load_simple_dict("origin_synonyms.json")
 
+    def load_origin_index(self):
+        """Loads `origin_index.json`, a dictionary mapping origins to product URLs."""
+        return self.load_simple_dict("origin_index.json")
 
-def load_origin_synonyms():
-    """Charge `origin_synonyms.json` sans modification, car c'est déjà un dictionnaire utilisable."""
-    filepath = os.path.join(DATA_DIR, "origin_synonyms.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
+    def load_reviews_index(self):
+        """Loads `reviews_index.json`, containing review scores and total reviews per URL."""
+        return self.load_simple_dict("reviews_index.json")
 
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: origin_synonyms.json not found!")
+    def load_title_index(self):
+        """Loads `title_index.json`, mapping keywords to product URLs."""
+        return self.load_simple_dict("title_index.json")
 
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
+    def load_brand_index(self):
+        """Loads `brand_index.json`, mapping brands to product URLs."""
+        return self.load_simple_dict("brand_index.json")
 
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
-    return data  # On retourne directement le dictionnaire
-
-
-def load_origin_index():
-    """Charge `origin_index.json`, qui est un simple dictionnaire {origine: [URLs]}"""
-    filepath = os.path.join(DATA_DIR, "origin_index.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
-
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: origin_index.json not found!")
-
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
-    return data  # C'est déjà un dictionnaire
-
-
-def load_reviews_index():
-    """Charge `reviews_index.json`, qui associe des URLs à des notes et nombres de reviews."""
-    filepath = os.path.join(DATA_DIR, "reviews_index.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
-
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: reviews_index.json not found!")
-
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
-    return data  # On retourne tel quel
-
-
-def load_title_index():
-    """Charge `title_index.json`, qui associe des mots-clés aux URLs de produits."""
-    filepath = os.path.join(DATA_DIR, "title_index.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
-
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: title_index.json not found!")
-
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
-    return data  # C'est déjà un dictionnaire
-
-
-def load_brand_index():
-    """Charge `brand_index.json`."""
-    filepath = os.path.join(DATA_DIR, "brand_index.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
-
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: brand_index.json not found!")
-
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
-    return data  # C'est déjà un dictionnaire
-
-
-def load_domain_index():
-    """Charge `domain_index.json`."""
-    filepath = os.path.join(DATA_DIR, "domain_index.json")
-    print(f"DEBUG: Chargement du fichier {filepath}")
-
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Error: domain_index.json not found!")
-
-    with open(filepath, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    print(f"DEBUG: JSON chargé avec succès, type: {type(data)}")
-    return data  # C'est déjà un dictionnaire
+    def load_domain_index(self):
+        """Loads `domain_index.json`, mapping domains to product URLs."""
+        return self.load_simple_dict("domain_index.json")

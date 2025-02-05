@@ -1,162 +1,162 @@
 {
     "game": [
         {
-            "title": "Product related to 'game' at https://web-scraping.dev/product/16",
+            "title": "Game - Product at https://web-scraping.dev/product/16",
             "url": "https://web-scraping.dev/product/16",
-            "description": "Found in keyword 'game' with values [11]",
-            "score": 3.5330416317301063
+            "description": "This product is associated with 'game' (relevance score: [11])",
+            "score": 3.532765560538179
         },
         {
-            "title": "Product related to 'game' at https://web-scraping.dev/product/16?variant=one",
+            "title": "Game - Product at https://web-scraping.dev/product/16?variant=one",
             "url": "https://web-scraping.dev/product/16?variant=one",
-            "description": "Found in keyword 'game' with values [14]",
-            "score": 3.5330416317301063
+            "description": "This product is associated with 'game' (relevance score: [14])",
+            "score": 3.532765560538179
         },
         {
-            "title": "Product related to 'game' at https://web-scraping.dev/product/16?variant=six-pack",
+            "title": "Game - Product at https://web-scraping.dev/product/16?variant=six-pack",
             "url": "https://web-scraping.dev/product/16?variant=six-pack",
-            "description": "Found in keyword 'game' with values [4]",
-            "score": 3.5330416317301063
+            "description": "This product is associated with 'game' (relevance score: [4])",
+            "score": 3.532765560538179
         },
         {
-            "title": "Product related to 'game' at https://web-scraping.dev/product/28",
+            "title": "Game - Product at https://web-scraping.dev/product/28",
             "url": "https://web-scraping.dev/product/28",
-            "description": "Found in keyword 'game' with values [4]",
-            "score": 3.5330416317301063
+            "description": "This product is associated with 'game' (relevance score: [4])",
+            "score": 3.532765560538179
         },
         {
-            "title": "Product related to 'game' at https://web-scraping.dev/product/28?variant=one",
+            "title": "Game - Product at https://web-scraping.dev/product/28?variant=one",
             "url": "https://web-scraping.dev/product/28?variant=one",
-            "description": "Found in keyword 'game' with values [11]",
-            "score": 3.5330416317301063
+            "description": "This product is associated with 'game' (relevance score: [11])",
+            "score": 3.532765560538179
         }
     ],
     "headphones": [],
     "video on demand": [
         {
-            "title": "Product related to 'video' at https://web-scraping.dev/product/17",
+            "title": "Video - Product at https://web-scraping.dev/product/17",
             "url": "https://web-scraping.dev/product/17",
-            "description": "Found in keyword 'video' with values [17]",
+            "description": "This product is associated with 'video' (relevance score: [17])",
             "score": 1.2985076962177717
         },
         {
-            "title": "Product related to 'video' at https://web-scraping.dev/product/17?variant=six-pack",
+            "title": "Video - Product at https://web-scraping.dev/product/17?variant=six-pack",
             "url": "https://web-scraping.dev/product/17?variant=six-pack",
-            "description": "Found in keyword 'video' with values [17]",
+            "description": "This product is associated with 'video' (relevance score: [17])",
             "score": 1.2985076962177717
         },
         {
-            "title": "Product related to 'video' at https://web-scraping.dev/product/5?variant=one",
+            "title": "Video - Product at https://web-scraping.dev/product/5?variant=one",
             "url": "https://web-scraping.dev/product/5?variant=one",
-            "description": "Found in keyword 'video' with values [19]",
+            "description": "This product is associated with 'video' (relevance score: [19])",
             "score": 1.2985076962177717
         },
         {
-            "title": "Product related to 'video' at https://web-scraping.dev/product/5?variant=six-pack",
+            "title": "Video - Product at https://web-scraping.dev/product/5?variant=six-pack",
             "url": "https://web-scraping.dev/product/5?variant=six-pack",
-            "description": "Found in keyword 'video' with values [22]",
+            "description": "This product is associated with 'video' (relevance score: [22])",
             "score": 1.2985076962177717
         },
         {
-            "title": "Product related to 'on' at https://web-scraping.dev/product/17",
+            "title": "On - Product at https://web-scraping.dev/product/17",
             "url": "https://web-scraping.dev/product/17",
-            "description": "Found in keyword 'on' with values [2]",
+            "description": "This product is associated with 'on' (relevance score: [2])",
             "score": 1.0978370007556206
         }
     ],
     "best smartphone 2024": [
         {
-            "title": "Product related to 'best' at https://web-scraping.dev/product/14?variant=one",
+            "title": "Best - Product at https://web-scraping.dev/product/14?variant=one",
             "url": "https://web-scraping.dev/product/14?variant=one",
-            "description": "Found in keyword 'best' with values [12]",
+            "description": "This product is associated with 'best' (relevance score: [12])",
             "score": 0.5465200156348929
         },
         {
-            "title": "Product related to 'best' at https://web-scraping.dev/product/15",
+            "title": "Best - Product at https://web-scraping.dev/product/15",
             "url": "https://web-scraping.dev/product/15",
-            "description": "Found in keyword 'best' with values [19]",
+            "description": "This product is associated with 'best' (relevance score: [19])",
             "score": 0.5465200156348929
         },
         {
-            "title": "Product related to 'best' at https://web-scraping.dev/product/15?variant=one",
+            "title": "Best - Product at https://web-scraping.dev/product/15?variant=one",
             "url": "https://web-scraping.dev/product/15?variant=one",
-            "description": "Found in keyword 'best' with values [8]",
+            "description": "This product is associated with 'best' (relevance score: [8])",
             "score": 0.5465200156348929
         },
         {
-            "title": "Product related to 'best' at https://web-scraping.dev/product/26",
+            "title": "Best - Product at https://web-scraping.dev/product/26",
             "url": "https://web-scraping.dev/product/26",
-            "description": "Found in keyword 'best' with values [12]",
+            "description": "This product is associated with 'best' (relevance score: [12])",
             "score": 0.5465200156348929
         },
         {
-            "title": "Product related to 'best' at https://web-scraping.dev/product/26?variant=one",
+            "title": "Best - Product at https://web-scraping.dev/product/26?variant=one",
             "url": "https://web-scraping.dev/product/26?variant=one",
-            "description": "Found in keyword 'best' with values [1]",
+            "description": "This product is associated with 'best' (relevance score: [1])",
             "score": 0.5465200156348929
         }
     ],
     "gaming monitor 144Hz": [
         {
-            "title": "Product related to 'gaming' at https://web-scraping.dev/product/14?variant=one",
+            "title": "Gaming - Product at https://web-scraping.dev/product/14?variant=one",
             "url": "https://web-scraping.dev/product/14?variant=one",
-            "description": "Found in keyword 'gaming' with values [13]",
-            "score": 0.5199489862989278
+            "description": "This product is associated with 'gaming' (relevance score: [13])",
+            "score": 0.5198340976510537
         },
         {
-            "title": "Product related to 'gaming' at https://web-scraping.dev/product/15?variant=six-pack",
+            "title": "Gaming - Product at https://web-scraping.dev/product/15?variant=six-pack",
             "url": "https://web-scraping.dev/product/15?variant=six-pack",
-            "description": "Found in keyword 'gaming' with values [9]",
-            "score": 0.5199489862989278
+            "description": "This product is associated with 'gaming' (relevance score: [9])",
+            "score": 0.5198340976510537
         },
         {
-            "title": "Product related to 'gaming' at https://web-scraping.dev/product/17",
+            "title": "Gaming - Product at https://web-scraping.dev/product/17",
             "url": "https://web-scraping.dev/product/17",
-            "description": "Found in keyword 'gaming' with values [4]",
-            "score": 0.5199489862989278
+            "description": "This product is associated with 'gaming' (relevance score: [4])",
+            "score": 0.5198340976510537
         },
         {
-            "title": "Product related to 'gaming' at https://web-scraping.dev/product/17?variant=six-pack",
+            "title": "Gaming - Product at https://web-scraping.dev/product/17?variant=six-pack",
             "url": "https://web-scraping.dev/product/17?variant=six-pack",
-            "description": "Found in keyword 'gaming' with values [4]",
-            "score": 0.5199489862989278
+            "description": "This product is associated with 'gaming' (relevance score: [4])",
+            "score": 0.5198340976510537
         },
         {
-            "title": "Product related to 'gaming' at https://web-scraping.dev/product/18",
+            "title": "Gaming - Product at https://web-scraping.dev/product/18",
             "url": "https://web-scraping.dev/product/18",
-            "description": "Found in keyword 'gaming' with values [1]",
-            "score": 0.5199489862989278
+            "description": "This product is associated with 'gaming' (relevance score: [1])",
+            "score": 0.5198340976510537
         }
     ],
     "orange": [
         {
-            "title": "Product related to 'orange' at https://web-scraping.dev/product/13",
+            "title": "Orange - Product at https://web-scraping.dev/product/13",
             "url": "https://web-scraping.dev/product/13",
-            "description": "Found in keyword 'orange' with values [5]",
+            "description": "This product is associated with 'orange' (relevance score: [5])",
             "score": 3.539220713153281
         },
         {
-            "title": "Product related to 'orange' at https://web-scraping.dev/product/13?variant=cherry-large",
+            "title": "Orange - Product at https://web-scraping.dev/product/13?variant=cherry-large",
             "url": "https://web-scraping.dev/product/13?variant=cherry-large",
-            "description": "Found in keyword 'orange' with values [17]",
+            "description": "This product is associated with 'orange' (relevance score: [17])",
             "score": 3.539220713153281
         },
         {
-            "title": "Product related to 'orange' at https://web-scraping.dev/product/13?variant=cherry-medium",
+            "title": "Orange - Product at https://web-scraping.dev/product/13?variant=cherry-medium",
             "url": "https://web-scraping.dev/product/13?variant=cherry-medium",
-            "description": "Found in keyword 'orange' with values [11]",
+            "description": "This product is associated with 'orange' (relevance score: [11])",
             "score": 3.539220713153281
         },
         {
-            "title": "Product related to 'orange' at https://web-scraping.dev/product/13?variant=orange-medium",
+            "title": "Orange - Product at https://web-scraping.dev/product/13?variant=orange-medium",
             "url": "https://web-scraping.dev/product/13?variant=orange-medium",
-            "description": "Found in keyword 'orange' with values [26]",
+            "description": "This product is associated with 'orange' (relevance score: [26])",
             "score": 3.539220713153281
         },
         {
-            "title": "Product related to 'orange' at https://web-scraping.dev/product/1?variant=cherry-large",
+            "title": "Orange - Product at https://web-scraping.dev/product/1?variant=cherry-large",
             "url": "https://web-scraping.dev/product/1?variant=cherry-large",
-            "description": "Found in keyword 'orange' with values [23]",
+            "description": "This product is associated with 'orange' (relevance score: [23])",
             "score": 3.539220713153281
         }
     ]

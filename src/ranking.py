@@ -2,7 +2,11 @@ from collections import Counter
 import math
 from preprocessing import tokenize
 from filtering import filter_documents
-from load_data import load_description_index, load_origin_synonyms
+from load_data import DataLoader
+
+data_loader = DataLoader()
+synonyms = data_loader.load_origin_synonyms()
+
 
 def compute_bm25(query, documents, k1=1.5, b=0.75):
     """
@@ -132,7 +136,7 @@ def rank_documents(query, documents):
     - List of ranked documents
     """
     # Step 1: Filter documents
-    synonyms = load_origin_synonyms()
+    synonyms = data_loader.load_origin_synonyms()
     filtered_docs = filter_documents(query, documents, synonyms)
 
     if not filtered_docs:  # If no documents match, return empty
