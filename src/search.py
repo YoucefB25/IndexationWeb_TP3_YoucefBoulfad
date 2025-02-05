@@ -3,7 +3,7 @@ from ranking import rank_documents
 
 def search(query):
     """Executes a search query and returns ranked results."""
-    documents = load_description_index()  # Load the index
+    documents = load_description_index() # Load the index
 
     print(f"DEBUG: Loaded {len(documents)} documents")  # ✅ Check if documents are loaded
     if documents:
@@ -12,3 +12,8 @@ def search(query):
     ranked_results = rank_documents(query, documents)  # Rank documents
     
     return ranked_results
+
+documents = load_description_index()
+print(f"DEBUG: {len(documents)} documents chargés")
+if documents:
+    print("DEBUG: Exemple de document :", documents[0])

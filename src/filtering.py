@@ -8,28 +8,27 @@ def contains_all_tokens(query_tokens, document_tokens):
     """Checks if all query tokens (excluding stopwords) are in the document."""
     return all(token in document_tokens for token in query_tokens)
 
-def filter_documents(query, documents, synonyms, match_all=False):
-    """
-    Filters documents based on query tokens.
 
-    - If `match_all=True`, returns documents that contain all query tokens.
-    - If `match_all=False`, returns documents that contain at least one query token.
-    """
+def filter_documents(query, documents, synonyms):
+    """Filters documents based on query tokens."""
     expanded_query = expand_query(query, synonyms)
     filtered_docs = []
 
+    print(f"DEBUG: Expanded query for '{query}' -> {expanded_query}")
+
     for doc in documents:
-        doc_tokens = tokenize(doc.get('title', '') + ' ' + doc.get('description', ''))
-        
-        # Choose filtering method
-        if match_all:
-            condition = contains_all_tokens(expanded_query, doc_tokens)
-        else:
-            condition = contains_any_token(expanded_query, doc_tokens)
+        title = doc.get('title', '').strip()
+        description = doc.get('description', '').strip()
 
-        if condition:
+        if not title and not description:  # ✅ Skip empty docs
+            print(f"WARNING: Skipping empty document {doc}")
+            continue
+
+        doc_tokens = tokenize(title + ' ' + description)
+
+        if any(token in doc_tokens for token in expanded_query):
             filtered_docs.append(doc)
-    
-    return filtered_docs
 
+    print(f"DEBUG: {len(filtered_docs)} documents matched for query '{query}'")
+    return filtered_docs
 
