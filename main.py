@@ -7,17 +7,24 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 from src.search import search
 import json
 
+def run_tests():
+    """Runs test queries and saves results."""
+    with open("test_queries.json", "r", encoding="utf-8") as file:
+        test_queries = json.load(file)
+
+    all_results = {}
+
+    for query in test_queries:
+        print(f"Running search for: {query}")
+        results = search(query)
+        all_results[query] = results[:5]  # Save only top 5 results for each query
+
+    # Save results to JSON
+    with open("test_results.json", "w", encoding="utf-8") as f:
+        json.dump(all_results, f, indent=4, ensure_ascii=False)
+
+    print("Test results saved to 'test_results.json'.")
+
 if __name__ == "__main__":
-    query = input("Enter your search query: ")
-    results = search(query)
+    run_tests()
 
-    output = {
-        "total_documents": len(results),
-        "results": results[:10]  # Show top 10 results
-    }
-
-    # Save results to JSON file
-    with open("search_results.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=4, ensure_ascii=False)
-    
-    print("Search results saved to 'search_results.json'")

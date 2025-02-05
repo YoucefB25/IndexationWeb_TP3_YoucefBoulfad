@@ -1,22 +1,14 @@
-from load_data import (load_brand_index, load_description_index, load_domain_index, 
-                           load_origin_index, load_reviews_index, load_title_index, load_origin_synonyms)
-from filtering import filter_documents
-from ranking import compute_bm25
+from load_data import load_description_index
+from ranking import rank_documents
 
 def search(query):
     """Executes a search query and returns ranked results."""
-    # Load indexes
-    documents = load_description_index()  # Primary index for searching descriptions
-    synonyms = load_origin_synonyms()
+    documents = load_description_index()  # Load the index
+
+    print(f"DEBUG: Loaded {len(documents)} documents")  # ✅ Check if documents are loaded
+    if documents:
+        print("DEBUG: Sample document:", documents[0])  # ✅ Print first document for verification
+
+    ranked_results = rank_documents(query, documents)  # Rank documents
     
-    # Step 1: Filtering
-    filtered_docs = filter_documents(query, documents, synonyms)
-    
-    # Step 2: Ranking
-    ranked_docs = compute_bm25(query, filtered_docs)
-    
-    # Format results
-    return [
-        {"title": doc['title'], "url": doc.get('url', ''), "description": doc['description'], "score": score}
-        for doc, score in ranked_docs
-    ]
+    return ranked_results
