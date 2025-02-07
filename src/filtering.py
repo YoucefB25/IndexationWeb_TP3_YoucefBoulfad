@@ -9,26 +9,23 @@ def contains_all_tokens(query_tokens, document_tokens):
     return all(token in document_tokens for token in query_tokens)
 
 
-def filter_documents(query, documents, synonyms):
-    """Filters documents based on query tokens."""
+def filter_documents(query, documents, synonyms, strict=False):
+    """Filters documents that match at least one token in the query.
+       If strict=True, requires at least 2 query tokens in the title.
+    """
     expanded_query = expand_query(query, synonyms)
     filtered_docs = []
 
-    print(f"DEBUG: Expanded query for '{query}' -> {expanded_query}")
-
     for doc in documents:
-        title = doc.get('title', '').strip()
-        description = doc.get('description', '').strip()
+        doc_tokens = doc['tokens']
+        title_match = sum(token in doc['title'].lower() for token in expanded_query)
 
-        if not title and not description:  # ✅ Skip empty docs
-            print(f"WARNING: Skipping empty document {doc}")
+        if strict and title_match < 2:  # ✅ Require at least 2 query tokens for stricter filtering
             continue
-
-        doc_tokens = tokenize(title + ' ' + description)
 
         if any(token in doc_tokens for token in expanded_query):
             filtered_docs.append(doc)
 
-    print(f"DEBUG: {len(filtered_docs)} documents matched for query '{query}'")
     return filtered_docs
+
 

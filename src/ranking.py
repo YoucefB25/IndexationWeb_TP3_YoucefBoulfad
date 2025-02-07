@@ -1,154 +1,65 @@
-from collections import Counter
 import math
-from preprocessing import tokenize
-from filtering import filter_documents
-from load_data import DataLoader
+from collections import Counter
+from urllib.parse import urlparse
+from src.preprocessing import tokenize
 
-data_loader = DataLoader()
-synonyms = data_loader.load_origin_synonyms()
+def normalize_url(url):
+    """Removes variant parameters from the URL to avoid duplicate products."""
+    parsed_url = urlparse(url)
+    base_url = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"  # Remove query parameters
+    return base_url
 
+def compute_bm25(query_tokens, documents, df_counter, N, avgdl, k1=None, b=0.75):
+    """Computes BM25 scores for ranked retrieval with a boost for important words."""
+    if k1 is None:
+        k1 = 2.0 if len(query_tokens) > 2 else 1.5  # ✅ Increase BM25 weight for longer queries
 
-def compute_bm25(query, documents, k1=1.5, b=0.75):
-    """
-    Computes BM25 scores for a list of documents based on the given query.
-    
-    Parameters:
-    - query (str): The search query
-    - documents (list): A list of documents (each containing title, description, etc.)
-    - k1 (float): Controls term frequency scaling
-    - b (float): Controls document length normalization
+    BOOST_WORDS = {"good", "best", "top", "recommended"}  # ✅ Words that should be weighted higher
 
-    Returns:
-    - List of tuples (document, BM25 score), sorted by score in descending order
-    """
-    N = len(documents)  # Total number of documents
-    avgdl = sum(len(tokenize(doc['description'])) for doc in documents) / N  # Average document length
-    
-    # Compute document frequencies
-    df = Counter()
-    for doc in documents:
-        words = set(tokenize(doc['description']))  # Unique words in the document
-        for word in words:
-            df[word] += 1
-    
-    # Compute BM25 scores
     scores = []
-    query_tokens = tokenize(query)
-
     for doc in documents:
-        doc_tokens = tokenize(doc['description'])
+        doc_tokens = doc['tokens']
         doc_len = len(doc_tokens)
         freq = Counter(doc_tokens)
         score = 0
 
         for term in query_tokens:
-            if term in freq:
-                idf = math.log((N - df[term] + 0.5) / (df[term] + 0.5) + 1)  # Inverse Document Frequency
-                tf = freq[term]  # Term Frequency
-                score += idf * ((tf * (k1 + 1)) / (tf + k1 * (1 - b + b * (doc_len / avgdl))))
+            idf = math.log((N - df_counter.get(term, 0) + 0.5) / (df_counter.get(term, 0) + 0.5) + 1)
+            tf = freq.get(term, 0)
+            
+            # ✅ Boost words like "good", "best", etc.
+            weight_boost = 1.5 if term in BOOST_WORDS else 1.0
+            
+            score += idf * ((tf * (k1 + 1) * weight_boost) / (tf + k1 * (1 - b + b * (doc_len / avgdl))))
 
         scores.append((doc, score))
-
-    return sorted(scores, key=lambda x: x[1], reverse=True)  # Sort documents by score
-
-
-def exact_match_boost(query, documents):
-    """
-    Boosts documents where the exact query appears in the title or description.
     
-    Parameters:
-    - query (str): The search query
-    - documents (list): A list of documents (each containing title, description, etc.)
+    return sorted(scores, key=lambda x: x[1], reverse=True)
+
+def rank_documents(query, data_loader, bm25=True, review_weight=0.4, title_weight=0.5, token_weight=0.2):
+    """Ranks documents using BM25 and additional heuristics."""
+    query_tokens = tokenize(query)
+    df_counter = data_loader.get_df()
+    N = len(data_loader.documents)
+    avgdl = sum(len(doc['tokens']) for doc in data_loader.documents) / N
+
+    bm25_scores = compute_bm25(query_tokens, data_loader.documents, df_counter, N, avgdl) if bm25 else []
     
-    Returns:
-    - Dictionary mapping document IDs to boost values
-    """
-    boost_values = {}
+    normalized_urls = set()  # ✅ Track unique URLs to avoid duplicates
+    ranked_docs = []
 
-    for doc in documents:
-        boost = 0
-        if query.lower() in doc['title'].lower():  # Exact match in title
-            boost += 2
-        if query.lower() in doc['description'].lower():  # Exact match in description
-            boost += 1
-        
-        boost_values[doc['id']] = boost  # Store boost for this document
-
-    return boost_values
-
-
-def compute_linear_score(query, documents, bm25_scores, review_weight=0.3, title_weight=0.5):
-    """
-    Computes a linear scoring function combining:
-    - BM25 score
-    - Exact match boosting
-    - Token frequency
-    - Presence in title vs description
-    - Review scores (if available)
-
-    Parameters:
-    - query (str): The search query
-    - documents (list): A list of documents
-    - bm25_scores (list): List of (document, BM25 score) tuples
-    - review_weight (float): Weight assigned to reviews
-    - title_weight (float): Weight assigned to title matches
-
-    Returns:
-    - List of tuples (document, final score), sorted by score in descending order
-    """
-    exact_boosts = exact_match_boost(query, documents)
-    
-    scores = []
     for doc, bm25_score in bm25_scores:
-        doc_id = doc['id']
-        score = bm25_score  # Start with BM25 score
-
-        # Add exact match boost
-        score += exact_boosts.get(doc_id, 0)
-
-        # Prioritize documents with keywords in the title
-        title_tokens = tokenize(doc['title'])
-        query_tokens = tokenize(query)
-        title_match_score = sum(1 for token in query_tokens if token in title_tokens)
+        score = bm25_score
+        title_match_score = sum(1 for token in query_tokens if token in doc['title'])
         score += title_match_score * title_weight
 
-        # Incorporate review score (if available)
-        review_score = float(doc.get('review_score', 0))  # Default to 0 if not present
-        score += review_score * review_weight
+        review = data_loader.load_reviews_index().get(doc['url'], {"mean_mark": 0, "total_reviews": 0})
+        review_score = review["mean_mark"] * review_weight if review["total_reviews"] > 0 else 0
+        score += review_score
 
-        scores.append((doc, score))
-        
-    
+        clean_url = normalize_url(doc["url"])
+        if clean_url not in normalized_urls:
+            normalized_urls.add(clean_url)
+            ranked_docs.append((doc, score))
 
-    return sorted(scores, key=lambda x: x[1], reverse=True)  # Sort by final score
-
-
-
-def rank_documents(query, documents):
-    """
-    Ranks documents using BM25, exact match boosting, and additional scoring factors.
-
-    Parameters:
-    - query (str): The search query
-    - documents (list): List of documents to rank
-
-    Returns:
-    - List of ranked documents
-    """
-    # Step 1: Filter documents
-    synonyms = data_loader.load_origin_synonyms()
-    filtered_docs = filter_documents(query, documents, synonyms)
-
-    if not filtered_docs:  # If no documents match, return empty
-        return []
-
-    # Step 2: Compute BM25 scores
-    bm25_scores = compute_bm25(query, filtered_docs)
-
-    # Step 3: Compute final ranking using linear scoring
-    ranked_docs = compute_linear_score(query, filtered_docs, bm25_scores)
-
-    return [
-        {"title": doc['title'], "url": doc.get('url', ''), "description": doc['description'], "score": score}
-        for doc, score in ranked_docs
-    ]
+    return sorted(ranked_docs, key=lambda x: x[1], reverse=True)

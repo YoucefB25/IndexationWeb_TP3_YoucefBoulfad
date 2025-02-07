@@ -1,79 +1,53 @@
 import os
 import json
+import logging
+from collections import Counter
+from src.preprocessing import tokenize
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class DataLoader:
-    """A class to handle loading and parsing various JSON index files."""
+    """Handles loading and structuring JSON index files."""
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root directory
-    DATA_DIR = os.path.join(BASE_DIR, "data")  # Data directory where JSON files are stored
-
-    def __init__(self):
-        print("✅ DataLoader initialized.")
+    def __init__(self, data_dir="data"):
+        self.data_dir = data_dir
+        self.df_counter = Counter()  # Precomputed document frequency
+        self.documents = self.load_description_index()
 
     def _load_json(self, filename):
-        """Generic method to load a JSON file."""
-        filepath = os.path.join(self.DATA_DIR, filename)
-        print(f"DEBUG: Loading file {filepath}")
-
+        """Generic method to load JSON files."""
+        filepath = os.path.join(self.data_dir, filename)
         if not os.path.exists(filepath):
-            raise FileNotFoundError(f"Error: {filename} not found!")
-
+            logging.warning(f"Warning: {filename} not found, returning empty dictionary.")
+            return {}
         with open(filepath, "r", encoding="utf-8") as file:
-            data = json.load(file)
-
-        print(f"DEBUG: JSON successfully loaded, type: {type(data)}")
-        return data
+            return json.load(file)
 
     def load_description_index(self):
-        """
-        Loads and processes `description_index.json`, transforming it into a structured list of documents.
-        """
-        data = self._load_json("description_index.json")
+        """Loads descriptions and precomputes document frequency."""
+        raw_data = self._load_json("description_index.json")
+        structured_data = []
 
-        processed_data = []
-        if isinstance(data, dict):
-            for keyword, url_dict in data.items():
-                if isinstance(url_dict, dict):
-                    for url, values in url_dict.items():
-                        if isinstance(values, list):
-                            processed_data.append({
-                                "id": hash(url),  # Unique identifier based on the URL
-                                "title": f"{keyword.capitalize()} - Product at {url}",
-                                "description": f"This product is associated with '{keyword}' (relevance score: {values})",
-                                "url": url
-                            })
+        for keyword, urls in raw_data.items():
+            for url, relevance_scores in urls.items():
+                text = f"{keyword} {url}"  # Combine keyword + URL
+                tokens = tokenize(text)
+                self.df_counter.update(set(tokens))  # Count unique word occurrences
+                structured_data.append({
+                    "id": hash(url),
+                    "title": f"{keyword.capitalize()} - {url}",
+                    "description": f"Contains keyword '{keyword}' (score: {relevance_scores[0]})",
+                    "url": url,
+                    "tokens": tokens  # Store pre-tokenized text
+                })
 
-        print(f"DEBUG: {len(processed_data)} documents processed")
-        return processed_data
-
-    def load_simple_dict(self, filename):
-        """
-        Loads a JSON file that is expected to be a simple dictionary and returns it as-is.
-        """
-        return self._load_json(filename)
-
-    # Methods to load specific indexes
-    def load_origin_synonyms(self):
-        """Loads `origin_synonyms.json` (already a dictionary)."""
-        return self.load_simple_dict("origin_synonyms.json")
-
-    def load_origin_index(self):
-        """Loads `origin_index.json`, a dictionary mapping origins to product URLs."""
-        return self.load_simple_dict("origin_index.json")
+        logging.info(f"Loaded {len(structured_data)} descriptions.")
+        return structured_data
 
     def load_reviews_index(self):
-        """Loads `reviews_index.json`, containing review scores and total reviews per URL."""
-        return self.load_simple_dict("reviews_index.json")
+        """Loads product review scores."""
+        return self._load_json("reviews_index.json")
 
-    def load_title_index(self):
-        """Loads `title_index.json`, mapping keywords to product URLs."""
-        return self.load_simple_dict("title_index.json")
-
-    def load_brand_index(self):
-        """Loads `brand_index.json`, mapping brands to product URLs."""
-        return self.load_simple_dict("brand_index.json")
-
-    def load_domain_index(self):
-        """Loads `domain_index.json`, mapping domains to product URLs."""
-        return self.load_simple_dict("domain_index.json")
+    def get_df(self):
+        """Returns precomputed document frequency."""
+        return self.df_counter
