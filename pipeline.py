@@ -197,7 +197,9 @@ def compute_bm25(query_tokens, documents, df_counter, N, avgdl, k1=1.5, b=0.75):
 
 
 def rank_documents(query, data_loader, bm25_weight=0.6, similarity_weight=0.4):
-    """Ranks documents, scrapes titles, extracts variants, and removes duplicates while keeping different variants."""
+    """Ranks documents, scrapes titles, extracts variants, and removes duplicates while keeping different variants.
+       Excludes results without explicit variants.
+    """
     query_tokens = tokenize(query)
     query_embedding = get_sentence_embedding(query)
     
@@ -215,6 +217,10 @@ def rank_documents(query, data_loader, bm25_weight=0.6, similarity_weight=0.4):
         # Get product title and variant
         title, variant = get_product_details(doc["url"], title_cache)
 
+        # 🚀 Exclude entries without a variant
+        if not variant:  
+            continue  # Skip this entry if the variant is empty
+
         # 🚀 Deduplication: Keep the highest-scoring result per (title, variant)
         key = (title, variant)  # Unique key: title + variant
         if key not in unique_results or final_score > unique_results[key]["score"]:
@@ -227,6 +233,7 @@ def rank_documents(query, data_loader, bm25_weight=0.6, similarity_weight=0.4):
 
     # Sort by score and return top results
     return sorted(unique_results.values(), key=lambda x: x["score"], reverse=True)[:10]
+
 
 
 

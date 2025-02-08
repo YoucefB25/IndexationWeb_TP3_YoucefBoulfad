@@ -2,12 +2,6 @@
     "what is the best chocolate?": [
         {
             "title": "Teal Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/27",
-            "score": 3.615135669708252
-        },
-        {
-            "title": "Teal Energy Potion",
             "variant": "one",
             "url": "https://web-scraping.dev/product/15?variant=one",
             "score": 3.593609094619751
@@ -23,12 +17,6 @@
             "variant": "one",
             "url": "https://web-scraping.dev/product/14?variant=one",
             "score": 3.3195407390594482
-        },
-        {
-            "title": "Dark Red Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/26",
-            "score": 3.075719118118286
         },
         {
             "title": "Box of Chocolate Candy",
@@ -56,9 +44,21 @@
         },
         {
             "title": "Box of Chocolate Candy",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/1",
+            "variant": "cherry-small",
+            "url": "https://web-scraping.dev/product/1?variant=cherry-small",
             "score": 1.7978359460830688
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "orange-large",
+            "url": "https://web-scraping.dev/product/1?variant=orange-large",
+            "score": 1.7978359460830688
+        },
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/6?variant=six-pack",
+            "score": 0.09056057035923004
         }
     ],
     "which are the most affordable shoes?": [
@@ -73,12 +73,6 @@
             "variant": "9",
             "url": "https://web-scraping.dev/product/9?variant=9",
             "score": 2.3082962036132812
-        },
-        {
-            "title": "Running Shoes for Men",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/21",
-            "score": 2.295927047729492
         },
         {
             "title": "Running Shoes for Men",
@@ -117,10 +111,16 @@
             "score": 1.638282060623169
         },
         {
-            "title": "Kids' Light-Up Sneakers",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/10",
-            "score": 1.6370460987091064
+            "title": "Classic Leather Sneakers",
+            "variant": "white40",
+            "url": "https://web-scraping.dev/product/11?variant=white40",
+            "score": 0.08283231407403946
+        },
+        {
+            "title": "Classic Leather Sneakers",
+            "variant": "white41",
+            "url": "https://web-scraping.dev/product/23?variant=white41",
+            "score": 0.08165877312421799
         }
     ],
     "give me top-rated drink": [
@@ -129,12 +129,6 @@
             "variant": "six-pack",
             "url": "https://web-scraping.dev/product/16?variant=six-pack",
             "score": 2.9122159481048584
-        },
-        {
-            "title": "Teal Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/15",
-            "score": 2.9109654426574707
         },
         {
             "title": "Teal Energy Potion",
@@ -147,18 +141,6 @@
             "variant": "one",
             "url": "https://web-scraping.dev/product/15?variant=one",
             "score": 2.909099578857422
-        },
-        {
-            "title": "Red Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/4",
-            "score": 2.9090113639831543
-        },
-        {
-            "title": "Blue Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/5",
-            "score": 2.90665864944458
         },
         {
             "title": "Blue Energy Potion",
@@ -174,24 +156,36 @@
         },
         {
             "title": "Dragon Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/18",
-            "score": 2.8928258419036865
-        },
-        {
-            "title": "Dragon Energy Potion",
             "variant": "one",
             "url": "https://web-scraping.dev/product/18?variant=one",
             "score": 2.8928258419036865
+        },
+        {
+            "title": "Red Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/4?variant=one",
+            "score": 2.8928258419036865
+        },
+        {
+            "title": "Dark Red Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/14?variant=one",
+            "score": 2.679661750793457
+        },
+        {
+            "title": "Dark Red Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/14?variant=six-pack",
+            "score": 2.679661750793457
+        },
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/6?variant=six-pack",
+            "score": 2.661522150039673
         }
     ],
     "bananas": [
-        {
-            "title": "Dragon Energy Potion",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/18",
-            "score": 0.05897168442606926
-        },
         {
             "title": "Dragon Energy Potion",
             "variant": "six-pack",
@@ -203,12 +197,6 @@
             "variant": "one",
             "url": "https://web-scraping.dev/product/18?variant=one",
             "score": 0.05897168442606926
-        },
-        {
-            "title": "Box of Chocolate Candy",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/13",
-            "score": 0.058907341212034225
         },
         {
             "title": "Box of Chocolate Candy",
@@ -236,15 +224,27 @@
         },
         {
             "title": "Cat-Ear Beanie",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/12",
-            "score": 0.05620898678898811
-        },
-        {
-            "title": "Cat-Ear Beanie",
             "variant": "grey-medium",
             "url": "https://web-scraping.dev/product/24?variant=grey-medium",
             "score": 0.05620898678898811
+        },
+        {
+            "title": "Red Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/28?variant=one",
+            "score": 0.0540449433028698
+        },
+        {
+            "title": "Red Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/28?variant=six-pack",
+            "score": 0.0540449433028698
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "cherry-medium",
+            "url": "https://web-scraping.dev/product/25?variant=cherry-medium",
+            "score": 0.05329981446266174
         }
     ],
     "something to wear": [
@@ -259,12 +259,6 @@
             "variant": "darkgrey-small",
             "url": "https://web-scraping.dev/product/24?variant=darkgrey-small",
             "score": 3.7924468517303467
-        },
-        {
-            "title": "Cat-Ear Beanie",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/24",
-            "score": 3.791562557220459
         },
         {
             "title": "Cat-Ear Beanie",
@@ -304,9 +298,15 @@
         },
         {
             "title": "Women's High Heel Sandals",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/8",
-            "score": 0.07975929230451584
+            "variant": "beige-7",
+            "url": "https://web-scraping.dev/product/20?variant=beige-7",
+            "score": 0.07494797557592392
+        },
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "beige-8",
+            "url": "https://web-scraping.dev/product/8?variant=beige-8",
+            "score": 0.07494797557592392
         }
     ],
     "feet": [
@@ -327,18 +327,6 @@
             "variant": "blue-9",
             "url": "https://web-scraping.dev/product/8?variant=blue-9",
             "score": 0.05546150356531143
-        },
-        {
-            "title": "Women's High Heel Sandals",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/20",
-            "score": 0.05392563343048096
-        },
-        {
-            "title": "Kids' Light-Up Sneakers",
-            "variant": "",
-            "url": "https://web-scraping.dev/product/22",
-            "score": 0.04617827385663986
         },
         {
             "title": "Kids' Light-Up Sneakers",
@@ -369,6 +357,18 @@
             "variant": "10",
             "url": "https://web-scraping.dev/product/9?variant=10",
             "score": 0.029246706515550613
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "9",
+            "url": "https://web-scraping.dev/product/9?variant=9",
+            "score": 0.029246706515550613
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "11",
+            "url": "https://web-scraping.dev/product/21?variant=11",
+            "score": 0.02780756726861
         }
     ]
 }
