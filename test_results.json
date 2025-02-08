@@ -1,0 +1,374 @@
+{
+    "what is the best chocolate?": [
+        {
+            "title": "Teal Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/27",
+            "score": 3.615135669708252
+        },
+        {
+            "title": "Teal Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/15?variant=one",
+            "score": 3.593609094619751
+        },
+        {
+            "title": "Teal Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/27?variant=six-pack",
+            "score": 3.593609094619751
+        },
+        {
+            "title": "Dark Red Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/14?variant=one",
+            "score": 3.3195407390594482
+        },
+        {
+            "title": "Dark Red Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/26",
+            "score": 3.075719118118286
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "orange-small",
+            "url": "https://web-scraping.dev/product/1?variant=orange-small",
+            "score": 1.8058547973632812
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "orange-medium",
+            "url": "https://web-scraping.dev/product/25?variant=orange-medium",
+            "score": 1.7993886470794678
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "cherry-large",
+            "url": "https://web-scraping.dev/product/1?variant=cherry-large",
+            "score": 1.79912269115448
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "cherry-medium",
+            "url": "https://web-scraping.dev/product/1?variant=cherry-medium",
+            "score": 1.79912269115448
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/1",
+            "score": 1.7978359460830688
+        }
+    ],
+    "which are the most affordable shoes?": [
+        {
+            "title": "Running Shoes for Men",
+            "variant": "10",
+            "url": "https://web-scraping.dev/product/9?variant=10",
+            "score": 2.3082962036132812
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "9",
+            "url": "https://web-scraping.dev/product/9?variant=9",
+            "score": 2.3082962036132812
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/21",
+            "score": 2.295927047729492
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "11",
+            "url": "https://web-scraping.dev/product/21?variant=11",
+            "score": 2.295927047729492
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "12",
+            "url": "https://web-scraping.dev/product/21?variant=12",
+            "score": 2.295927047729492
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "blue-5",
+            "url": "https://web-scraping.dev/product/10?variant=blue-5",
+            "score": 1.6528637409210205
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "blue-6",
+            "url": "https://web-scraping.dev/product/10?variant=blue-6",
+            "score": 1.6528637409210205
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "red-5",
+            "url": "https://web-scraping.dev/product/10?variant=red-5",
+            "score": 1.6386624574661255
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "red-6",
+            "url": "https://web-scraping.dev/product/22?variant=red-6",
+            "score": 1.638282060623169
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/10",
+            "score": 1.6370460987091064
+        }
+    ],
+    "give me top-rated drink": [
+        {
+            "title": "Red Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/16?variant=six-pack",
+            "score": 2.9122159481048584
+        },
+        {
+            "title": "Teal Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/15",
+            "score": 2.9109654426574707
+        },
+        {
+            "title": "Teal Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/15?variant=six-pack",
+            "score": 2.9109654426574707
+        },
+        {
+            "title": "Teal Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/15?variant=one",
+            "score": 2.909099578857422
+        },
+        {
+            "title": "Red Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/4",
+            "score": 2.9090113639831543
+        },
+        {
+            "title": "Blue Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/5",
+            "score": 2.90665864944458
+        },
+        {
+            "title": "Blue Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/17?variant=one",
+            "score": 2.90665864944458
+        },
+        {
+            "title": "Blue Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/17?variant=six-pack",
+            "score": 2.9005260467529297
+        },
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/18",
+            "score": 2.8928258419036865
+        },
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/18?variant=one",
+            "score": 2.8928258419036865
+        }
+    ],
+    "bananas": [
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/18",
+            "score": 0.05897168442606926
+        },
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "six-pack",
+            "url": "https://web-scraping.dev/product/6?variant=six-pack",
+            "score": 0.05897168442606926
+        },
+        {
+            "title": "Dragon Energy Potion",
+            "variant": "one",
+            "url": "https://web-scraping.dev/product/18?variant=one",
+            "score": 0.05897168442606926
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/13",
+            "score": 0.058907341212034225
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "orange-medium",
+            "url": "https://web-scraping.dev/product/25?variant=orange-medium",
+            "score": 0.058907341212034225
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "cherry-large",
+            "url": "https://web-scraping.dev/product/13?variant=cherry-large",
+            "score": 0.05813677981495857
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "cherry-small",
+            "url": "https://web-scraping.dev/product/13?variant=cherry-small",
+            "score": 0.05813677981495857
+        },
+        {
+            "title": "Box of Chocolate Candy",
+            "variant": "orange-large",
+            "url": "https://web-scraping.dev/product/13?variant=orange-large",
+            "score": 0.05813677981495857
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/12",
+            "score": 0.05620898678898811
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "grey-medium",
+            "url": "https://web-scraping.dev/product/24?variant=grey-medium",
+            "score": 0.05620898678898811
+        }
+    ],
+    "something to wear": [
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "sand-medium",
+            "url": "https://web-scraping.dev/product/24?variant=sand-medium",
+            "score": 3.8027517795562744
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "darkgrey-small",
+            "url": "https://web-scraping.dev/product/24?variant=darkgrey-small",
+            "score": 3.7924468517303467
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/24",
+            "score": 3.791562557220459
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "darkgrey-medium",
+            "url": "https://web-scraping.dev/product/12?variant=darkgrey-medium",
+            "score": 3.7904767990112305
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "pink-small",
+            "url": "https://web-scraping.dev/product/12?variant=pink-small",
+            "score": 3.7896974086761475
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "grey-medium",
+            "url": "https://web-scraping.dev/product/12?variant=grey-medium",
+            "score": 3.7891628742218018
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "pink-medium",
+            "url": "https://web-scraping.dev/product/12?variant=pink-medium",
+            "score": 3.7857062816619873
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "grey-small",
+            "url": "https://web-scraping.dev/product/12?variant=grey-small",
+            "score": 3.7789366245269775
+        },
+        {
+            "title": "Cat-Ear Beanie",
+            "variant": "sand-small",
+            "url": "https://web-scraping.dev/product/24?variant=sand-small",
+            "score": 3.7789366245269775
+        },
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/8",
+            "score": 0.07975929230451584
+        }
+    ],
+    "feet": [
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "beige-7",
+            "url": "https://web-scraping.dev/product/20?variant=beige-7",
+            "score": 0.05546150356531143
+        },
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "beige-8",
+            "url": "https://web-scraping.dev/product/8?variant=beige-8",
+            "score": 0.05546150356531143
+        },
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "blue-9",
+            "url": "https://web-scraping.dev/product/8?variant=blue-9",
+            "score": 0.05546150356531143
+        },
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/20",
+            "score": 0.05392563343048096
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "",
+            "url": "https://web-scraping.dev/product/22",
+            "score": 0.04617827385663986
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "blue-6",
+            "url": "https://web-scraping.dev/product/22?variant=blue-6",
+            "score": 0.04617827385663986
+        },
+        {
+            "title": "Women's High Heel Sandals",
+            "variant": "beige-6",
+            "url": "https://web-scraping.dev/product/20?variant=beige-6",
+            "score": 0.045005232095718384
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "blue-5",
+            "url": "https://web-scraping.dev/product/22?variant=blue-5",
+            "score": 0.04279721900820732
+        },
+        {
+            "title": "Kids' Light-Up Sneakers",
+            "variant": "red-5",
+            "url": "https://web-scraping.dev/product/22?variant=red-5",
+            "score": 0.03642308712005615
+        },
+        {
+            "title": "Running Shoes for Men",
+            "variant": "10",
+            "url": "https://web-scraping.dev/product/9?variant=10",
+            "score": 0.029246706515550613
+        }
+    ]
+}
