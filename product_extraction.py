@@ -135,7 +135,7 @@ for product in product_list:
         unique_products.append(product)
 
 # Step 4: Save results to JSON in the ROOT directory
-OUTPUT_FILE = "final_products.json"  # Saved to root directory
+OUTPUT_FILE = "extracted_products.json"  # Saved to root directory
 with open(OUTPUT_FILE, "w") as f:
     json.dump(unique_products, f, indent=4)
 
