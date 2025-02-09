@@ -18,16 +18,25 @@ product_info = [
 ]
 
 def search_semantic(query, top_n=10):
-    """Perform semantic search using cosine similarity."""
+    """Perform semantic search using cosine similarity with normalized scores."""
     # Generate query embedding
     query_embedding = model.encode(query).reshape(1, -1)
 
     # Compute cosine similarity with all product embeddings
     similarities = cosine_similarity(query_embedding, product_vectors)[0]
 
-    # Rank products by similarity score
+    # Normalize scores between 0 and 1
+    min_score = np.min(similarities)
+    max_score = np.max(similarities)
+
+    if max_score > min_score:  # Avoid division by zero
+        normalized_scores = (similarities - min_score) / (max_score - min_score)
+    else:
+        normalized_scores = np.zeros_like(similarities)  # If all scores are the same, set them to 0
+
+    # Rank products by normalized similarity score
     ranked_results = sorted(
-        zip(similarities, product_info),
+        zip(normalized_scores, product_info),
         key=lambda x: x[0],
         reverse=True
     )
@@ -39,6 +48,7 @@ def search_semantic(query, top_n=10):
 query = "red energy drink"
 results = search_semantic(query)
 
-# Display results
+# Display results with scores between 0 and 1
+print("\n🔍 **Top Search Results (Normalized Scores)** 🔍\n")
 for score, result in results:
     print(f"Score: {score:.4f} | Product: {result['title']} | Variant: {result['variant']} | URL: {result['url']}")

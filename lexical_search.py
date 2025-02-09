@@ -55,7 +55,7 @@ bm25_corpus = [product["tokens"] for product in tokenized_products]
 bm25_model = BM25Okapi(bm25_corpus)  # **Ensure BM25 is initialized once**
 
 def search_products(query, top_n=10):
-    """Search products using TF-IDF + BM25 and return top N results with scores."""
+    """Search products using TF-IDF + BM25 and return top N results with normalized scores."""
     query_tokens = tokenize(query)
     expanded_query_tokens = expand_query(query_tokens)
     query_text = " ".join(expanded_query_tokens)
@@ -70,7 +70,16 @@ def search_products(query, top_n=10):
     # Combine both scores (weighted average)
     final_scores = 0.5 * cosine_similarities + 0.5 * np.array(bm25_scores)
 
-    # Rank products based on scores
+    # Normalize scores between 0 and 1
+    min_score = np.min(final_scores)
+    max_score = np.max(final_scores)
+
+    if max_score > min_score:  # Avoid division by zero
+        final_scores = (final_scores - min_score) / (max_score - min_score)
+    else:
+        final_scores = np.zeros_like(final_scores)  # All scores are the same, set to 0
+
+    # Rank products based on normalized scores
     ranked_products = sorted(
         zip(final_scores, tokenized_products),
         key=lambda x: x[0],
@@ -84,6 +93,7 @@ def search_products(query, top_n=10):
 query = "red energy drink"
 results = search_products(query)
 
-# Display results with stable scores
+# Display results with stable scores between 0 and 1
+print("\n🔍 **Top Search Results (Normalized Scores)** 🔍\n")
 for score, result in results:
     print(f"Score: {score:.4f} | Product: {result['title']} | Variant: {result.get('variant', 'N/A')} | URL: {result.get('url', 'N/A')}")
