@@ -10,7 +10,7 @@ with open(TOKENIZED_FILE, "r", encoding="utf-8") as f:
     tokenized_products = json.load(f)
 
 # Load embedding model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
 
 # Generate embeddings with structured format
 embeddings_index = [

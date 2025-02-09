@@ -125,11 +125,12 @@ for url in urls:
     # Respectful scraping: Random delay between requests (to avoid being blocked)
     sleep(randint(1, 3))
 
-# Step 3: Remove duplicates
+# Step 3: Remove duplicates (ignoring URL differences)
 unique_products = []
 seen = set()
+
 for product in product_list:
-    key = (product["url"], product["title"], product["variant"], product["description"], product["price ($)"], product["brand"])
+    key = (product["title"], product["variant"], product["description"], product["price ($)"], product["brand"])
     if key not in seen:
         seen.add(key)
         unique_products.append(product)
@@ -139,4 +140,5 @@ OUTPUT_FILE = "extracted_products.json"  # Saved to root directory
 with open(OUTPUT_FILE, "w") as f:
     json.dump(unique_products, f, indent=4)
 
-print(f"✅ Extraction complete! Results saved in {OUTPUT_FILE}.")
+print(f"✅ Extraction complete! {len(unique_products)} unique products saved in {OUTPUT_FILE}.")
+
