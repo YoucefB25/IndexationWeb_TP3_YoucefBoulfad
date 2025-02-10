@@ -17,7 +17,7 @@ lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words("english"))
 
 # Load the same embedding model used for products
-model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")  # ✅ Ensure consistency
+model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")  # Ensure consistency
 
 # Load product embeddings
 with open("embeddings_of_products.json", "r", encoding="utf-8") as f:
@@ -27,7 +27,7 @@ with open("embeddings_of_products.json", "r", encoding="utf-8") as f:
 product_vectors = np.array([p["embeddings"] for p in product_embeddings])
 product_info = [
     {
-        "product_id": p["product_id"],  # ✅ Keep product_id for tracking
+        "product_id": p["product_id"],  # Keep product_id for tracking
         "url": p["url"],
         "title": p["title"],
         "variant": p.get("variant", "N/A")

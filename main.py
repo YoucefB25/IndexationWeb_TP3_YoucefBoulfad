@@ -42,8 +42,8 @@ def perform_batch_search(queries, weights, save_top_n=None):
                 "rank": rank + 1,
                 "title": product["title"],
                 "variant": product["variant"],
-                "brand": product.get("brand", "Unknown"),  # ✅ Added brand
-                "country_of_origin": product.get("country_of_origin", "Unknown"),  # ✅ Added country of origin
+                "brand": product.get("brand", "Unknown"),  
+                "country_of_origin": product.get("country_of_origin", "Unknown"), 
                 "url": product["url"],
                 "total_score": round(score, 4),
                 "lexical_score": round(lexical, 4),

@@ -34,7 +34,7 @@ On the other hand, the initial index files used for this process are stored in t
 
 Here I use lemmatization, stop words and synonyms, by using libraries from the nltk package. I tokenize the text fields of the 46 unique products from the extracted_products.json file. By "text fields" I mean title, variant, description, brand and country of origin. Numerical values (price, total_reviews, mean_mark and last_rating) are obviously not tokenized, but will serve later as search criteria. URLs are not tokenized either, nor IDs obivously. 
 
-However, we can notice here that the field "description" will always produce much more tokens than the other fields, being much longer, despite being "less important" for a search than fields like "title", "variant", "brand" and "country of origin", which have a higher product-characterization power with less words. To deal with this issue, I choose to duplicate the tokens from those fields. Hence, the tokenization output for a product contains : 1 * the tokens from "description" + 10 * the tokens from "title" + 10 * the tokens from "variant" + 10 * the tokens from "brand" + 10 * the tokens from "country of origin". I also add synonyms for the "title" tokens and the "country of origin" tokens, which I duplicate 5 times (being more cautious with synonyms than with original tokens).
+However, we can notice here that the field "description" will always produce much more tokens than the other fields, being much longer, despite being "less important" for a search than fields like "title", "variant", "brand" and "country of origin", which have a higher product-characterization power with less words. To deal with this issue, I choose to duplicate the tokens from those fields. Hence, the tokenization output for a product contains : 1 * the tokens from "description" + 10 * the tokens from "title" + 5 * the tokens from "variant" + 10 * the tokens from "brand" + 10 * the tokens from "country of origin". I also add synonyms for the "title" tokens and the "country of origin" tokens, which I duplicate 5 times (being more cautious with synonyms than with original tokens).
 
 As for the country of origin specifically, I use two sources of synonyms : the WordNet library used also for title synonyms, and the origin_synonyms.json file provided for this TP. I check for duplicates between these two sources, and then I aggregate the country synonyms and get a unique synonym list per country, before duplicating it 5 times for the relevant products as described earlier. 
 
@@ -64,7 +64,7 @@ I choose to normalize these scores to values between 0 and 1 (the top score bein
 
 5) Performing a semantic search : embeddings_of_products + search query --> semantic_search.py --> ranked results of semantic search
 
-The purpose of this process is to perform a search based on semantic similarity and not textual matching. This can be useful when a query doesn't contain an explicit token of the searched product, like for example : feet (query) --> shoes (product). 
+The purpose of this process is to perform a search based on semantic similarity and not textual matching. This can be useful when a query doesn't contain an explicit token of the searched product, like for example : walk (query) --> shoes (product). 
 
 As this process isn't based on textual matching, I choose not to apply any hard filter to it, unlike the lexical search. So, for every query, all 46 products are given a semantic similarity score and ranked. 
 
@@ -107,20 +107,20 @@ First, I decide to test some queries for lexical similarity.
 
 For example, I test "I love chocodelight", chocodelight being a brand, present in many products (and we have seen that the brand tokens are duplicated 10 times in each product's token bag). Result : all the first six results are of the brand "ChocoDelight".
 
-As another lexical similarity test, I use "what are the most affordable shoes?", as many products have the token "shoes" explicitely in their title. Result : the first four results all contain the word "shoes", and the next six contain synonyms or close parents of shoes (boots, sneakers), maybe thanks to the use of synonyms among tokens and maybe thanks the use of semantic search (as the meanings are close). 
+As another lexical similarity test, I use "what are the most affordable shoes?", as many products have the token "shoes" explicitely in their title. Result : the first four results all contain the word "shoes", and the next six contain synonyms or close parents of shoes (sneakers), maybe thanks to the use of synonyms among tokens and maybe thanks the use of semantic search (as the meanings are close). 
 
-Second, I test for semantic similarity. I use a query like "feet" (not an explicit token in any product). Result : all the 10 results are about shoes, boots and sandals. 
+Second, I test for semantic similarity. I use a query like "walk" (not an explicit token in any product). Result : all the 10 results are about shoes, boots and sneakers. 
 
 For the query "bananas" I get chocolate for the first six results, then cat-ear beanies for the four next. All of these results have 0 score for lexical similarity (which is normal, since no product has the token "banana") but their semantic similarity scores are high since chocolate and banana are both foods; and beanies might have a connection to the concept of banana (maybe in a metaphorical sense). 
 
-For the query "sport" I get "running shoes" for the first four results, "hiking boots" for the next four, and "energy potions" for the next two. These results suggest that the semantic search works fine and gets good results, despite weighing only 40% of the output score. 
+For the query "sport" I get "running shoes" and "hiking boots" for eight out of the first nine results, and "energy potion" for one. The last result (number 10) seems irrelevant to sport (high heels sandals). These results suggest that the semantic search works fine and gets good results, though not perfect, despite weighing only 40% of the output score. 
 
 Third, I test for the efficiency of the price and reviews criteria, despite weighing only 20% of the total score. For this I perform a "vanilla" query : "energy potion" (there are a lot of energy potions among the products). I get ten energy potion results. And indeed the first two have high price and review scores (cheap and well reviewed), but the next ones not so much. This is probably because of the low weight of these criteria. 
 
-I change the weights in the main.py module to (lexical 0.2, semantic 0.2, price 0.3, reviews 0.3), I perform the same search ("energy potion"). Results : it's better, though not optimal (for this query), but the difference is stark for other queries like "sport" where indeed the cheapest and best reviewed results appear first (the energy potion results instead of the running shoes ones). 
+I change the weights in the main.py module to (lexical 0.25, semantic 0.25, price 0.25, reviews 0.25), I perform the same search ("energy potion"). Results : it's better, though not optimal (for this query), but the difference is stark for other queries like "sport" where indeed the cheapest and best reviewed results appear first (energy potions become better ranked than running shoes or hiking boots, as they are cheaper).
 
 I go back to the default weights. 
 
-Finally I test a search using a synonym of a country (to see if synonym tokenization is efficient). The query is "I'm American". Result : all ten results display products from the usa. Good. 
+Finally I test a search using a synonym of a country (to see if synonym tokenization is efficient). The query is "I'm American". Result : all ten results display products from the USA. Good. 
 
 Thank you for reading ! 

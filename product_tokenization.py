@@ -12,7 +12,7 @@ nltk.download("wordnet")
 # Load input and output file paths
 INPUT_FILE = "extracted_products.json"
 OUTPUT_FILE = "tokenized_products.json"
-COUNTRY_SYNONYMS_FILE = "initial_index_files/origin_synonyms.json"  # ✅ Adjust path if needed
+COUNTRY_SYNONYMS_FILE = "initial_index_files/origin_synonyms.json"  # Adjust path if needed
 
 # Load extracted products data
 with open(INPUT_FILE, "r", encoding="utf-8") as f:
@@ -20,7 +20,7 @@ with open(INPUT_FILE, "r", encoding="utf-8") as f:
 
 # Load country synonyms
 with open(COUNTRY_SYNONYMS_FILE, "r", encoding="utf-8") as f:
-    country_synonyms_dict = json.load(f)  # { "France": ["French Republic", "FR"], ... }
+    country_synonyms_dict = json.load(f)  
 
 # Initialize NLTK tools
 lemmatizer = WordNetLemmatizer()
@@ -35,7 +35,7 @@ def tokenize(text):
     words = [lemmatizer.lemmatize(w) for w in words if w not in stop_words]
     return words
 
-# Function to generate synonyms
+# Function to generate synonyms (from WordNet)
 def get_synonyms(word):
     """Retrieve synonyms for a given word using WordNet."""
     synonyms = set()
@@ -55,7 +55,7 @@ for product in products:
     country_tokens = tokenize(product["country_of_origin"])
 
     # Get synonyms for important fields
-    synonym_tokens = set()  # ✅ Use a set to remove duplicates
+    synonym_tokens = set()  # Use a set to remove duplicates
 
     # Add synonyms from WordNet (I do it only for title and country, not for description, because description tokens already dominate largely)
     for token in title_tokens + country_tokens:
@@ -81,7 +81,7 @@ for product in products:
 
     # Store tokenized result with `product_id`
     tokenized_products.append({
-        "product_id": product["product_id"],  # ✅ Keep the unique identifier
+        "product_id": product["product_id"],  # Keep the unique identifier
         "url": product["url"],
         "title": product["title"],
         "variant": product["variant"],
