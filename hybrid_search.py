@@ -35,26 +35,14 @@ def hybrid_search(query, top_n=None, lambda_lexical=0.4, lambda_semantic=0.4, la
     lexical_results = {p["product_id"]: score for score, p in lexical_search(query)}
     semantic_results = {p["product_id"]: score for score, p in semantic_search(query)}
 
-    # Check missing scores
-    for product in product_data:
-        product_id = product["product_id"]
-        found_in_lexical = product_id in lexical_results
-        found_in_semantic = product_id in semantic_results
-        print(f"Checking Product ID: {product_id}")
-        print(f"  Found in Lexical Search? {found_in_lexical}")
-        print(f"  Found in Semantic Search? {found_in_semantic}")
-        if not found_in_lexical or not found_in_semantic:
-            print(f"⚠️ WARNING: Missing score for {product['title']} - {product['variant']}")
-        print("-" * 50)
-
     # Aggregate scores
     final_scores = []
     for i, product in enumerate(product_data):
         product_id = product["product_id"]  # Use consistent identifier
 
-        # Retrieve lexical and semantic scores (default to 0 if not found)
-        lexical_score = lexical_results.get(product_id, 0)
-        semantic_score = semantic_results.get(product_id, 0)
+        # Retrieve scores (default lexical_score to 0 if not found)
+        lexical_score = lexical_results.get(product_id, 0)  # ✅ Ensure missing lexical scores are 0
+        semantic_score = semantic_results.get(product_id, 0)  # Semantic search always provides a score
         
         # Get normalized price and review scores
         price_score = price_scores[i]  # Between 0 and 1
@@ -79,6 +67,7 @@ def hybrid_search(query, top_n=None, lambda_lexical=0.4, lambda_semantic=0.4, la
         ranked_results = ranked_results[:top_n]
 
     return ranked_results  # ✅ Returns scores for all products
+
 
 
 # Example query

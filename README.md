@@ -1,3 +1,5 @@
+Student : Youcef Boulfrad, master SDDP-STD.
+
 For this TP I have followed many steps : 
 
 1) Product file constitution : product_extraction.py --> extracted_products.json
@@ -22,9 +24,11 @@ Then I use the reviews_index.json file to extract total_reviews, mean_mark et la
 
 I later discover that many different product URLs actually point to the same products : same title, same variant, same price, same country of origin, same brand, but with different URLs, like here https://web-scraping.dev/product/1 and here https://web-scraping.dev/product/13. I treat these as duplicates and finally get 46 unique products (unique title-variant associations) out of 132 unique URLs of products. 
 
-I then store the constituted file under the name "extracted_products.json". It will be used later for tokenization, embedding, and search. 
+I then store the constituted file under the name "extracted_products.json". It will be used later for tokenization, embedding, and search.
 
-On the other hand, the initial index files used for this process are stored in the folder "initial_index_files", and not used for the rest of the code. 
+I also add a unique identifier to each of the 46 products, because I later discover that it's more practical when aggregating different search results containing the same products. 
+
+On the other hand, the initial index files used for this process are stored in the folder "initial_index_files", and mostly not used for the rest of the code. 
 
 2) Tokenization of the extracted_products file : extracted_products.json --> product_tokenization.py --> tokenized_products.json : 
 
@@ -32,7 +36,9 @@ Here I use lemmatization, stop words and synonyms, by using libraries from the n
 
 However, we can notice here that the field "description" will always produce much more tokens than the other fields, being much longer, despite being "less important" for a search than fields like "title", "variant", "brand" and "country of origin", which have a higher product-characterization power with less words. To deal with this issue, I choose to duplicate the tokens from those fields. Hence, the tokenization output for a product contains : 1 * the tokens from "description" + 10 * the tokens from "title" + 10 * the tokens from "variant" + 10 * the tokens from "brand" + 10 * the tokens from "country of origin". I also add synonyms for the "title" tokens and the "country of origin" tokens, which I duplicate 5 times (being more cautious with synonyms than with original tokens).
 
-All those steps can be found on the file product_tokenization.py. The output of this process is tokenized_products.json. 
+As for the country of origin specifically, I use two sources of synonyms : the WordNet library used also for title synonyms and the origin_synonyms.json file provided for this TP. I check for duplicates between these two sources, and then I aggregate the country synonyms, before duplicating them 5 times as described earlier. 
+
+All those steps can be found on the file product_tokenization.py. The output of this process is tokenized_products.json, that for each of the 46 products contains a bag of tokens, with no distinction between title tokens, country tokens, description tokens, etc, except for the fact that some are repeated multiple times (like title tokens *10 and title synonym tokens *5) to be given more weight during the searches. 
 
 3) Computing embeddings for the tokenized products : tokenized_products.json --> product_embedding.py --> embeddings_of_products.json
 
@@ -48,10 +54,71 @@ This process can be found in the product_embedding.py module, and its output in 
 
 To perform a lexical search I first tokenize the query, using the same process as for the tokenization of products. This process uses the NLTK library, with lemmatization, stop words, and synonyms expansion. 
 
-Once the query is tokenized, the BM25 model of ranking is used (from the rank_bm25 library) to compare the query tokens to all the tokens of the products, and give a score of similarity per product. 
+Once the query is tokenized, I first apply a hard filter to the tokenized products : if a product doesn't have at least one common token with the query, it is eliminated. 
 
-As we have only 46 products, for each query we can rank them all (even if we don't display all the results) and compute a score for each product regarding our query. 
+Then, for the remaining products, the BM25 model of ranking is used (from the rank_bm25 library) to compare the query tokens to all the tokens of these products, and give a score of similarity per product. 
 
-I also choose to normalize these scores to values between 0 and 1 (the top score being always 1), for comparability with the semantic search results, explained in the next section. 
+I choose to normalize these scores to values between 0 and 1 (the top score being always 1), for comparability with the semantic search results, explained in the next section. 
 
-5) Performing a semantic search : embeddings_of_products + search query --> semantic_search.py -->
+5) Performing a semantic search : embeddings_of_products + search query --> semantic_search.py --> ranked results of semantic search
+
+The purpose of this process is to perform a search based on semantic similarity and not textual matching. This can be useful when a query doesn't contain an explicit token of the searched product, like for example : feet (query) --> shoes (product). 
+
+As this process isn't based on textual matching, I choose not to apply any hard filter to it, unlike the lexical search. So, for every query, all 46 products are given a semantic similarity score and ranked. 
+
+Before ranking, the query is tokenized (like for lexical search) and then the tokens are embedded, projected into the same 384 dimensions as the products' tokens, with the same NLP model. 
+
+A measure of similarity is then performed (cosine similarity : the cosine of the angle between the two vectors) and the 46 products are given scores and ranked. 
+
+6) Performing a hybrid search : tokens + embeddings of products + query --> hybrid search (hybrid_search.py) --> hybrid score and ranking. 
+
+As the name suggests, hybrid search is a search process where scores from the lexical and from the semantic searches are aggregated into a unique score. 
+
+However, as the semantic search outputs rankings for 46 products while the lexical search applies a hard filter (and removes results where no token is shared between query and product), I have to impute the value 0 for lexical search scores of products that are removed because they share no token with the query. Hence I have 46 scores for each query from both the semantic and the lexical searches. 
+
+In addition to these two seach scores, I choose to add a score from reviews (the score being a function of high marks, number of reviews and latest mark) and a score from the price (the lower prices being higher in score, as I presume the consumer wants to spend less if possible). 
+
+I give then aggregation weights to the four scores (by default 0.4 for lexical search, 0.4 for semantic search, 0.1 for reviews and 0.1 for price), weights that can be changed, and the function outputs a hybrid search score and ranking for all 46 products and for any query. 
+
+Of course, we can choose not to display all 46 products as results, but this is implemented in the main.py module. 
+
+7) The main.py module : queries.json + tokenized_products.py + embeddings_of_products --> main.py --> search_results.json
+
+This main.py module allows to test many queries from a json file (queries.json) and outputs a json file with the rankings of products for each query. 
+
+It simply calls the hybrid_search method, but on multiple queries instead of just one. And it allows to re-parametrize the weights of the lexical, semantic, price and reviews score; and to choose how many results to keep per query for the output, the default being set to 10 results per query (instead of 46).
+
+
+TEST RESULTS
+
+For the basic search modules (lexical_search.py, semantic_search.py, hybrid_search.py) : 
+
+I use the same query for all three, for consistency, the query is "red energy drink". All three functions give the same first four results ("red energy potion" and "dark red energy potion" in variants "one" and "six-pack"). These are good results. The following results are non-red energy potions. 
+
+Then, as expected, the lexical search gives only 13 results, as it filters out products that have no common token with the query (hard filter) before calculating similarity scores; and the semantic search gives 46 results as expected. The hybrid search imputes the value of 0 for lexical search score for products without a lexical search score, and returns 46 results, as expected. So far so good. 
+
+For the main.py module : 
+
+I keep the default weights (lexical 0.4, semantic 0.4, price 0.1, reviews 0.1) for my test and see the results. I also keep the default parameter of 10 stored results per query.
+
+First, I decide to test some queries for lexical similarity and some for semantic similarity. 
+
+For example, for lexical similarity I test "I love chocodelight", chocodelight being a brand, present in many products (and we have seen that the brand tokens are duplicated 10 times in each product's token bag). Result : all the first six results are of the brand "ChocoDelight".
+
+As another lexical similarity test, I use "what are the most affordable shoes?", as many products have the token "shoes" explicitely in their title. Result : the first four results all contain the word "shoes", and the next six contain synonyms or close parents of shoes (boots, sneakers), maybe thanks to the use of synonyms among tokens and maybe thanks the use of semantic search (as the meanings are close). 
+
+Second, I test for semantic similarity. I use a query like "feet". Result : all the 10 results are about shoes, boots and sandals. 
+
+For the query "bananas" I get chocolate for the first six results, then cat-ear beanies for the four next. All of these results have 0 score for lexical search (which is normal, since no product has the token "banana") but their semantic similarity scores are high since chocolate and banana are both foods; and beanies might have a connection to the concept of banana (maybe in a metaphorical sense). 
+
+For the query "sport" I get "running shoes" for the first four results, "hiking boots" for the next four, and "energy potions" for the next two. These results suggest that the semantic search works fine and gets good results, despite weighing only 40% of the output score. 
+
+Third, I test for the efficiency of the price and reviews criteria, despite weighing only 20% of the total score. For this I perform a "vanilla" query : "energy potion" (there are a lot of energy potions among the products). I get ten energy potion results. And indeed the first two have high price and review scores (cheap and well reviewed), but the next ones not so much. This is probably because of the low weight of these criteria. 
+
+I change the weights in the main.py module to (lexical 0.2, semantic 0.2, price 0.3, reviews 0.3), I perform the same search ("energy potion"). Results : it's a bit better, though far from optimal (for this query), but the difference is stark for other queries like "sport" where indeed the cheapest and best reviewed results appear first. 
+
+I go back to the default weights. 
+
+Finally I test a search using a synonym of a country (to see if synonym tokenization was efficient). The query is "I'm American". Result : all ten results display products from the usa. Good. 
+
+Thank you for reading ! 
