@@ -58,11 +58,11 @@ for product in products:
 
     # Replicate title and variant tokens for weighting
     weighted_tokens = (
-        title_tokens * 5 +  # More weight for title
-        variant_tokens * 5 +  # More weight for variant
+        title_tokens * 10 +  # More weight for title
+        variant_tokens * 10 +  # More weight for variant
         description_tokens +
-        brand_tokens * 5 +
-        country_tokens * 5 +
+        brand_tokens * 10 +
+        country_tokens * 10 +
         synonym_tokens * 5  # Add synonyms
     )
 

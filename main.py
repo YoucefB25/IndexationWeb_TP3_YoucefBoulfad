@@ -38,6 +38,8 @@ def perform_batch_search(queries, weights, top_n=10):
                 "rank": rank + 1,
                 "title": product["title"],
                 "variant": product["variant"],
+                "brand": product.get("brand", "Unknown"),  # ✅ Added brand
+                "country_of_origin": product.get("country_of_origin", "Unknown"),  # ✅ Added country of origin
                 "url": product["url"],
                 "total_score": round(score, 4),
                 "lexical_score": round(lexical, 4),
@@ -57,9 +59,9 @@ with open(QUERY_FILE, "r", encoding="utf-8") as f:
 
 # Set custom weights (modify here directly)
 weights = {
-    "lexical": 0.3,   # Adjust BM25 + TF-IDF weight
+    "lexical": 0.4,   # Adjust BM25 + TF-IDF weight
     "semantic": 0.4,  # Adjust sentence embedding weight
-    "reviews": 0.2,   # Adjust review influence
+    "reviews": 0.1,   # Adjust review influence
     "price": 0.1      # Adjust price influence
 }
 
