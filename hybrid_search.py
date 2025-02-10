@@ -17,17 +17,43 @@ last_ratings = np.array([p["last_rating"] for p in product_data])
 # Normalize scores (scales values between 0 and 1)
 scaler = MinMaxScaler()
 
-# Normalize price scores (Lower price = higher score)
-price_scores = scaler.fit_transform(prices.reshape(-1, 1)).flatten()
-price_scores = 1 - price_scores  # Invert so lower prices get higher scores
 
-# Normalize review scores based on (mean rating * total reviews + latest rating)
-review_scores_raw = mean_ratings * total_reviews + last_ratings
-if review_scores_raw.max() > review_scores_raw.min():  # Prevent division by zero
+# Normalize Price Scores (Lower Price = Higher Score) #
+# Convert product prices into a NumPy array
+prices = np.array([p["price ($)"] for p in product_data])
+
+# Normalize prices between 0 and 1 (0 = lowest price, 1 = highest price)
+price_scores = scaler.fit_transform(prices.reshape(-1, 1)).flatten()
+
+# Invert scores so that lower prices have higher scores (1 - normalized value)
+price_scores = 1 - price_scores  
+
+# The cheapest product gets a score of 1.0, and the most expensive gets 0.0.
+
+
+
+# Normalize Review Scores (More Reviews + High Ratings = Higher Score) #
+# Extract rating-related values into NumPy arrays
+mean_ratings = np.array([p["mean_mark"] for p in product_data])  # Average rating
+total_reviews = np.array([p["total_reviews"] for p in product_data])  # Total number of reviews
+last_ratings = np.array([p["last_rating"] for p in product_data])  # Most recent rating
+
+# Compute a raw review score: a combination of review count & quality
+# Formula: (mean rating * total reviews) + last rating
+review_scores_raw = (mean_ratings * total_reviews) + last_ratings
+
+# Check if there's variation in review scores (avoid division errors)
+if review_scores_raw.max() > review_scores_raw.min():
+    # Normalize raw review scores between 0 and 1
     review_scores = scaler.fit_transform(review_scores_raw.reshape(-1, 1)).flatten()
 else:
-    review_scores = np.zeros_like(review_scores_raw)  # If all are the same, set to 0
+    # If all review scores are the same, set them all to 0 (no useful ranking)
+    review_scores = np.zeros_like(review_scores_raw)
 
+# Products with the most positive & frequent reviews get scores closer to 1.0.
+
+
+# Hybrid search function :
 def hybrid_search(query, top_n=None, lambda_lexical=0.4, lambda_semantic=0.4, lambda_reviews=0.1, lambda_price=0.1):
     """Perform a hybrid search combining lexical, semantic, price, and review-based ranking."""
     
