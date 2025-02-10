@@ -1,6 +1,4 @@
 import json
-import re
-import os
 import nltk
 from nltk.corpus import stopwords, wordnet
 from nltk.tokenize import word_tokenize
@@ -26,20 +24,20 @@ stop_words = set(stopwords.words("english"))
 # Function to tokenize and lemmatize text
 def tokenize(text):
     """Tokenize, remove stopwords, and lemmatize text."""
-    text = text.lower()  # Convert to lowercase
-    words = word_tokenize(text)  # Tokenize into words
-    words = [w for w in words if w.isalnum()]  # Remove punctuation
-    words = [lemmatizer.lemmatize(w) for w in words if w not in stop_words]  # Lemmatize & remove stopwords
+    text = text.lower()
+    words = word_tokenize(text)
+    words = [w for w in words if w.isalnum()]
+    words = [lemmatizer.lemmatize(w) for w in words if w not in stop_words]
     return words
 
 # Function to generate synonyms
 def get_synonyms(word):
     """Retrieve synonyms for a given word using WordNet."""
     synonyms = set()
-    for synset in wordnet.synsets(word):  # Get synsets (meanings) of the word
-        for lemma in synset.lemmas():  # Get lemma names (synonyms)
+    for synset in wordnet.synsets(word):
+        for lemma in synset.lemmas():
             synonyms.add(lemma.name().replace("_", " "))  # Convert to readable format
-    return list(synonyms)[:3]  # Limit to 3 synonyms to avoid excessive tokens
+    return list(synonyms)[:3]  # Limit to 3 synonyms
 
 # Process products and generate tokens
 tokenized_products = []
@@ -54,7 +52,7 @@ for product in products:
     # Get synonyms for important fields
     synonym_tokens = []
     for token in title_tokens + country_tokens:
-        synonym_tokens.extend(get_synonyms(token))  # Add synonyms
+        synonym_tokens.extend(get_synonyms(token))
 
     # Replicate title and variant tokens for weighting
     weighted_tokens = (
@@ -66,8 +64,9 @@ for product in products:
         synonym_tokens * 5  # Add synonyms
     )
 
-    # Store tokenized result
+    # Store tokenized result with `product_id`
     tokenized_products.append({
+        "product_id": product["product_id"],  # ✅ Keep the unique identifier
         "url": product["url"],
         "title": product["title"],
         "variant": product["variant"],

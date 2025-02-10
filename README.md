@@ -40,4 +40,18 @@ This process is carried out in the perspective of performing semantic searches, 
 
 To compute embeddings for each product I use, from the SentenceTransformer library, the NLP model "multi-qa-MiniLM-L6-cos-v1". It returns for each product's pack of tokens 384 numerical values, corresponding to dimensions on which those tokens are projected, and which capture their meaning. 
 
-For this vectorization process I choose to use the already produced tokens (tokenized_products.json) rather than the products file (extracted_products.json)
+For this vectorization process I choose to use the already produced tokens (tokenized_products.json) rather than the products file itself(extracted_products.json), so that the embeddings will reflect the already duplicated tokens (for title, variant, brand and country of origin), allowing this re-weighting to be taken into account when performing semantic searches, as well as for lexical searches. 
+
+This process can be found in the product_embedding.py module, and its output in the embeddings_of_products.json file. 
+
+4) Performing a lexical search : tokenized_products.json + search query --> lexical_search.py --> ranked results of lexical search
+
+To perform a lexical search I first tokenize the query, using the same process as for the tokenization of products. This process uses the NLTK library, with lemmatization, stop words, and synonyms expansion. 
+
+Once the query is tokenized, the BM25 model of ranking is used (from the rank_bm25 library) to compare the query tokens to all the tokens of the products, and give a score of similarity per product. 
+
+As we have only 46 products, for each query we can rank them all (even if we don't display all the results) and compute a score for each product regarding our query. 
+
+I also choose to normalize these scores to values between 0 and 1 (the top score being always 1), for comparability with the semantic search results, explained in the next section. 
+
+5) Performing a semantic search : embeddings_of_products + search query --> semantic_search.py -->

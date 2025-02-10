@@ -25,12 +25,17 @@ def perform_batch_search(queries, weights, top_n=10):
     for query in queries:
         print(f"\n🔍 Searching for: **{query}** ...")
 
-        # Run hybrid search with new weights
-        search_results = hybrid_search(query, top_n=top_n,
-                                       lambda_lexical=lambda_lexical,
-                                       lambda_semantic=lambda_semantic,
-                                       lambda_reviews=lambda_reviews,
-                                       lambda_price=lambda_price)
+        # Run hybrid search without `top_n` (we handle ranking later)
+        search_results = hybrid_search(
+            query,
+            lambda_lexical=lambda_lexical,
+            lambda_semantic=lambda_semantic,
+            lambda_reviews=lambda_reviews,
+            lambda_price=lambda_price
+        )
+
+        # Keep only the top `N` results
+        top_results = search_results[:top_n]
 
         # Store results
         results[query] = [
@@ -48,7 +53,7 @@ def perform_batch_search(queries, weights, top_n=10):
                 "price_score": round(price, 4),
                 "real_price": f"${real_price:.2f}"
             }
-            for rank, (score, lexical, semantic, review, price, real_price, product) in enumerate(search_results)
+            for rank, (score, lexical, semantic, review, price, real_price, product) in enumerate(top_results)
         ]
 
     return results

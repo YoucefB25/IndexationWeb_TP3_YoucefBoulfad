@@ -15,6 +15,7 @@ model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
 # Generate embeddings with structured format
 embeddings_index = [
     {
+        "product_id": p["product_id"],  # ✅ Keep the unique identifier
         "url": p["url"],
         "title": p.get("title"),
         "variant": p.get("variant"),
