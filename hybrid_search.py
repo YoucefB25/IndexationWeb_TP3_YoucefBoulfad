@@ -28,17 +28,14 @@ if review_scores_raw.max() > review_scores_raw.min():  # Prevent division by zer
 else:
     review_scores = np.zeros_like(review_scores_raw)  # If all are the same, set to 0
 
-def hybrid_search(query, lambda_lexical=0.4, lambda_semantic=0.4, lambda_reviews=0.1, lambda_price=0.1):
+def hybrid_search(query, top_n=None, lambda_lexical=0.4, lambda_semantic=0.4, lambda_reviews=0.1, lambda_price=0.1):
     """Perform a hybrid search combining lexical, semantic, price, and review-based ranking."""
     
     # Get results from both search methods
     lexical_results = {p["product_id"]: score for score, p in lexical_search(query)}
     semantic_results = {p["product_id"]: score for score, p in semantic_search(query)}
 
-    print("\n🔍 Debugging Hybrid Search Scores 🔍\n")
-
-    # Check if `product_id`s in lexical and semantic results match `product_data`
-    print("\n🔍 Debugging Product ID Matching 🔍\n")
+    # Check missing scores
     for product in product_data:
         product_id = product["product_id"]
         found_in_lexical = product_id in lexical_results
@@ -58,7 +55,7 @@ def hybrid_search(query, lambda_lexical=0.4, lambda_semantic=0.4, lambda_reviews
         # Retrieve lexical and semantic scores (default to 0 if not found)
         lexical_score = lexical_results.get(product_id, 0)
         semantic_score = semantic_results.get(product_id, 0)
-
+        
         # Get normalized price and review scores
         price_score = price_scores[i]  # Between 0 and 1
         review_score = review_scores[i]  # Between 0 and 1
@@ -74,10 +71,14 @@ def hybrid_search(query, lambda_lexical=0.4, lambda_semantic=0.4, lambda_reviews
 
         final_scores.append((final_score, lexical_score, semantic_score, review_score, price_score, real_price, product))
 
-    # Sort all products by highest score (now includes **all** products)
+    # Sort all products by highest score
     ranked_results = sorted(final_scores, key=lambda x: x[0], reverse=True)
 
-    return ranked_results  # ✅ Returns all 46 products
+    # **Apply `top_n` if specified**
+    if top_n is not None:
+        ranked_results = ranked_results[:top_n]
+
+    return ranked_results  # ✅ Returns scores for all products
 
 
 # Example query

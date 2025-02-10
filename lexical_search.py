@@ -58,35 +58,42 @@ def lexical_search(query):
     """Search products using TF-IDF + BM25 and return scores for all products."""
     query_tokens = tokenize(query)
     expanded_query_tokens = expand_query(query_tokens)
-    query_text = " ".join(expanded_query_tokens)
 
-    # **Use precomputed TF-IDF matrix**
-    query_vector = tfidf_vectorizer.transform([query_text])
+    # Pre-filter products: Keep only those that share at least one token with the query
+    filtered_products = [
+        product for product in tokenized_products
+        if any(token in product["tokens"] for token in expanded_query_tokens)
+    ]
+
+    if not filtered_products:
+        return []  # No relevant products found
+
+    # Continue with existing scoring process...
+    product_texts = [" ".join(product["tokens"]) for product in filtered_products]
+    tfidf_matrix = tfidf_vectorizer.fit_transform(product_texts)
+    query_vector = tfidf_vectorizer.transform([" ".join(expanded_query_tokens)])
     cosine_similarities = (tfidf_matrix @ query_vector.T).toarray().flatten()
 
-    # **Use precomputed BM25 model**
+    bm25_corpus = [product["tokens"] for product in filtered_products]
+    bm25_model = BM25Okapi(bm25_corpus)
     bm25_scores = bm25_model.get_scores(expanded_query_tokens)
 
-    # Combine both scores (weighted average)
     final_scores = 0.5 * cosine_similarities + 0.5 * np.array(bm25_scores)
 
-    # Normalize scores between 0 and 1
-    min_score = np.min(final_scores)
-    max_score = np.max(final_scores)
-
-    if max_score > min_score:  # Avoid division by zero
+    # Normalize scores
+    min_score, max_score = np.min(final_scores), np.max(final_scores)
+    if max_score > min_score:
         final_scores = (final_scores - min_score) / (max_score - min_score)
     else:
-        final_scores = np.zeros_like(final_scores)  # All scores are the same, set to 0
+        final_scores = np.zeros_like(final_scores)
 
-    # Rank all products based on normalized scores
+    # Rank and return results
     ranked_products = sorted(
-        zip(final_scores, tokenized_products),
+        zip(final_scores, filtered_products),
         key=lambda x: x[0],
         reverse=True
     )
 
-    # Return scores for all products (even those with score 0), keeping `product_id`
     return [(score, {"product_id": product["product_id"], **product}) for score, product in ranked_products]
 
 

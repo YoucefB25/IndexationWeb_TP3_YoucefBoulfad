@@ -5,13 +5,13 @@ from hybrid_search import hybrid_search  # Import the hybrid search function
 QUERY_FILE = "queries.json"  # Input queries
 OUTPUT_FILE = "search_results.json"  # Output results
 
-def perform_batch_search(queries, weights, top_n=10):
+def perform_batch_search(queries, weights, save_top_n=None):
     """
     Performs hybrid search on multiple queries and outputs results in JSON format.
 
     :param queries: List of query strings
     :param weights: Dictionary with weights for lexical, semantic, reviews, and price
-    :param top_n: Number of top results per query
+    :param save_top_n: Number of top results to save per query (None = save all)
     :return: Dictionary with search results
     """
     # Unpack weights
@@ -25,17 +25,16 @@ def perform_batch_search(queries, weights, top_n=10):
     for query in queries:
         print(f"\n🔍 Searching for: **{query}** ...")
 
-        # Run hybrid search without `top_n` (we handle ranking later)
-        search_results = hybrid_search(
-            query,
-            lambda_lexical=lambda_lexical,
-            lambda_semantic=lambda_semantic,
-            lambda_reviews=lambda_reviews,
-            lambda_price=lambda_price
-        )
+        # Run hybrid search with new weights
+        search_results = hybrid_search(query,
+                                       lambda_lexical=lambda_lexical,
+                                       lambda_semantic=lambda_semantic,
+                                       lambda_reviews=lambda_reviews,
+                                       lambda_price=lambda_price)
 
-        # Keep only the top `N` results
-        top_results = search_results[:top_n]
+        # Keep all 46 products but limit saving based on `save_top_n`
+        if save_top_n is not None:
+            search_results = search_results[:save_top_n]  # Keep only top `save_top_n` results
 
         # Store results
         results[query] = [
@@ -53,7 +52,7 @@ def perform_batch_search(queries, weights, top_n=10):
                 "price_score": round(price, 4),
                 "real_price": f"${real_price:.2f}"
             }
-            for rank, (score, lexical, semantic, review, price, real_price, product) in enumerate(top_results)
+            for rank, (score, lexical, semantic, review, price, real_price, product) in enumerate(search_results)
         ]
 
     return results
@@ -70,11 +69,14 @@ weights = {
     "price": 0.1      # Adjust price influence
 }
 
+# Set how many results to save per query (None = save all 46)
+save_top_n = 10  # Change this value to limit saved results
+
 # Run batch search
-search_results = perform_batch_search(queries, weights, top_n=10)
+search_results = perform_batch_search(queries, weights, save_top_n=save_top_n)
 
 # Save results to JSON
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     json.dump(search_results, f, indent=4)
 
-print(f"\n✅ Search results saved to `{OUTPUT_FILE}`.")
+print(f"\n✅ Search results saved to `{OUTPUT_FILE}` with top {save_top_n} results per query.")
