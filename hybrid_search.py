@@ -70,15 +70,17 @@ def hybrid_search(query, top_n=None, lambda_lexical=0.4, lambda_semantic=0.4, la
 
 
 
-# Example query
-query = "red energy drink"
-results = hybrid_search(query)
+if __name__ == "__main__":
+    # Example query (only runs if script is executed directly)
+    query = "red energy drink"
+    results = hybrid_search(query)
 
-# Display only the clean output 
-print(f"\n🔍 ** Hybrid Search Results for « {query} » ** 🔍\n")
-for rank, (total_score, lexical_score, semantic_score, review_score, price_score, real_price, result) in enumerate(results, start=1):
-    print(f"🏆 Rank {rank}")
-    print(f"   Score: {total_score:.4f} (Lexical {lexical_score:.4f}, Semantic {semantic_score:.4f}, Reviews {review_score:.4f}, Price {price_score:.4f} ($ {real_price:.2f}))")
-    print(f"   {result['title']} - {result['variant']}")
-    print(f"   {result['url']}")
-    print("-" * 80)  # Separator for better readability
+    # Display only the clean output 
+    print(f"\n🔍 ** Hybrid Search Results for « {query} » ** 🔍\n")
+    for rank, (total_score, lexical_score, semantic_score, review_score, price_score, real_price, result) in enumerate(results, start=1):
+        print(f"🏆 Rank {rank}")
+        print(f"   Score: {total_score:.4f} (Lexical {lexical_score:.4f}, Semantic {semantic_score:.4f}, Reviews {review_score:.4f}, Price {price_score:.4f} ($ {real_price:.2f}))")
+        print(f"   {result['title']} - {result['variant']}")
+        print(f"   {result['url']}")
+        print("-" * 80)
+

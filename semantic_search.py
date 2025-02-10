@@ -93,11 +93,13 @@ def semantic_search(query):
     # Return scores for all products (even those with score 0), keeping `product_id`
     return [(score, product) for score, product in ranked_results]
 
-# Example search
-query = "red energy drink"
-results = semantic_search(query)
+if __name__ == "__main__":
+    # Example search
+    query = "red energy drink"
+    results = semantic_search(query)
 
-# Display results with scores between 0 and 1 (excluding `product_id` in output)
-print(f"\n🔍 ** Semantic Search Results for « {query} » ** 🔍\n")
-for score, result in results:
-    print(f"Score: {score:.4f} | Product: {result['title']} | Variant: {result['variant']} | URL: {result['url']}")
+    # Display results
+    print(f"\n🔍 ** Semantic Search Results for « {query} » ** 🔍\n")
+    for score, product in results:
+        print(f"Score: {score:.4f} | Product: {product['title']} - {product['variant']}")
+

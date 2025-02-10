@@ -97,11 +97,13 @@ def lexical_search(query):
     return [(score, {"product_id": product["product_id"], **product}) for score, product in ranked_products]
 
 
-# Example search
-query = "red energy drink"
-results = lexical_search(query)
+if __name__ == "__main__":
+    # Example search
+    query = "red energy drink"
+    results = lexical_search(query)
 
-# Display results with stable scores between 0 and 1 (excluding `product_id` in output)
-print(f"\n🔍 ** Lexical Search Results for « {query} » ** 🔍\n")
-for score, result in results:
-    print(f"Score: {score:.4f} | Product: {result['title']} | Variant: {result.get('variant', 'N/A')} | URL: {result.get('url', 'N/A')}")
+    # Display results
+    print(f"\n🔍 ** Lexical Search Results for « {query} » ** 🔍\n")
+    for score, product in results:
+        print(f"Score: {score:.4f} | Product: {product['title']} - {product['variant']}")
+
